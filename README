@@ -1,5 +1,5 @@
-This is a simple application that allows easy creating of tracking beacons (also
+This is a simple application that allows easy creation of tracking beacons (also
 known as pixels, or web bugs) on your web sites. Allows you to track where
-different enties (usually users) are going, where they came from, and any other
+different entities (usually users) are going, where they came from, and any other
 arbitrary data that might be related to the entity being tracked.
 
