@@ -79,20 +79,3 @@ class IPEntity(models.Model):
     def __unicode__(self):
         return '%s IP addresses' % len(self.ip_addresses.all())
 
-
-### This is a target that can be used for testing purposes:
-
-# class DemoTarget(models.Model):
-#     """ This is a target that should only be used for demonstration purposes. It
-#     simply sets our target to Google."""
-#     def get_absolute_url(self):
-#         return 'http://google.com/'
-
-#     def __unicode__(self):
-#         return 'http://google.com/'
-
-#     # get_beacon_url is used to decide where to go. get_absolute_url is
-#     # used when get_beacon_url doesn't exist.
-#     get_beacon_url = get_absolute_url
-
-
