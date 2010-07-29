@@ -71,10 +71,13 @@ class IPEntity(models.Model):
 
     # Entities need an update method that accepts the request passed to it
     def beacon_update(self, request):
+        self.save()
+
         ip_address = address=request.META.get('REMOTE_ADDR')
         next_ip, created = IP.objects.get_or_create(address=ip_address)
 
-        self.ip_addresses.add(next_ip)
+        if created:
+            self.ip_addresses.add(next_ip)
 
     def __unicode__(self):
         return '%s IP addresses' % len(self.ip_addresses.all())
