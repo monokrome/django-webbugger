@@ -76,8 +76,7 @@ class IPEntity(models.Model):
         ip_address = address=request.META.get('REMOTE_ADDR')
         next_ip, created = IP.objects.get_or_create(address=ip_address)
 
-        if created:
-            self.ip_addresses.add(next_ip)
+        self.ip_addresses.add(next_ip)
 
     def __unicode__(self):
         return '%s IP addresses' % len(self.ip_addresses.all())
