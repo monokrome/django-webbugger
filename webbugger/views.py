@@ -12,11 +12,13 @@ def trigger(request, target_type, target_id, source_type=None, source_id=None,
     """ Takes a set of beaconing criteria and creates a beacon from the current
     request. """
 
-    target = get_object_or_404(target_type, pk=target_id)
-
+    target = None
     entity = None
     beacon = None
     source = None
+
+    if pixel == False and (target_type is not None and target_id is not None):
+        target = get_object_or_404(target_type, pk=target_id)
 
     # If we were passed a valid beacon source, we need to make use of it.
     if source_type is not None and source_id is not None:
@@ -41,10 +43,14 @@ def trigger(request, target_type, target_id, source_type=None, source_id=None,
         entity.save()
 
     # Generate an argument list for unpacking into our class constructor later
-    beacon_arguments = {
-        'target_type': ContentType.objects.get_for_model(target_type),
-        'target_id': target.pk,
-    }
+    beacon_arguments = {}
+
+    # If we need to supply a target for this tracking instance, supply it.
+    if target is not None:
+        beacon_arguments.update({
+            'target_type': ContentType.objects.get_for_model(target_type),
+            'target_id': target.pk,
+        })
 
     # Sometimes people want a bug and they don't need to link it to a source.
     if source is not None:
