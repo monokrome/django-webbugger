@@ -5,9 +5,13 @@
 Django-Webbugger is a simple application that can be used to track visitors to your website. It uses the django content-types framework to allow the most flexible approach possible for processing tracking information. This allows you to customize what data is tracked in a very flexible way.
 
 ## Modes of operation
-The main view used for tracking is **webbugger.views.trigger**, which normally works in redirect mode. When in redirect mode, the tracking system uses a given Target class to redirect the client to another page after the tracking is finished. This accomplishes a method of tracking that is transparent to users - depending on your URL schema.
+The main view used for tracking is **webbugger.views.trigger** which normally works in redirect mode, but can optionally be told to work in pixel mode instead.
 
-The trigger view also takes a keyword argument with the name of "pixel". This argument tells the view to return a 1x1 pixel clear GIF instead of redirecting the user to a new page. With this feature, it is possible to embed tracking URLs directly into pages as invisible image elements. Not only that, but you can make use of any online medium that downloads images by this system.
+### Redirect Mode
+When in redirect mode, the tracking system uses a given Target class to redirect the client to another page after the tracking is finished. This accomplishes a method of tracking that is transparent to users - depending on your URL schema.
+
+### Pixel Mode
+The trigger view also takes a keyword argument with the name of "pixel". When set to True, this argument tells the view to return a 1x1 pixel clear GIF instead of redirecting the user to a new page. With this feature, it is possible to embed tracking URLs directly into pages as invisible image elements. Not only that, but you can make use of any online medium that downloads images by this system.
 
 The pixel method allows you to do more clever things, such as including tracking inside of emails in order to see if someone has viewed an email that you sent them - assuming that they have images enabled in their email client, of course.
 
