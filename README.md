@@ -12,11 +12,15 @@ The trigger view also takes a keyword argument with the name of "pixel". This ar
 The pixel method allows you to do more clever things, such as including tracking inside of emails in order to see if someone has viewed an email that you sent them - assuming that they have images enabled in their email client, of course.
 
 ## Model structure
-For everything tracked, a "Beacon" is created. This beacon represents our tracking data. Beacons can consist of a Target, an Entity, and a Source. Entity and Source are provided for systems that want to track some sort of data affiliated with their page hits. When redirecting, a Target is required - otherwise it is optional.
 
+For everything tracked, a "Beacon" is created. This beacon represents our tracking data. Beacons can consist of a Target, an Entity, and a Source. Entity and Source are provided for systems that want to track some sort of data affiliated with their page hits. A Target is required when redirecting, but it is unneeded when using pixels for tracking.
+
+### Request Entities
 An "Entity" is a django model that stores information related to an HTTP request in django. An entity can be any django model and can optionally define a method called "beacon_update" which will be called and passed the request from the tracking view prior to redirecting to our target URL. This allows you to save data from the request straight into the model very easily.
 
+### Traffic Sources
 The "Source" can be any django model. This is useful for storing information regarding where the traffic came from. For instance, in an affiliate marketing system - you could use the source attribute of our beacon to reference the affiliate that sent the traffic to your site.
 
+### Target Destinations
 When not being used in pixel mode, a "target" represents where to redirect traffic after the Beacon has been created. A target is simply a model that defines a get_beacon_url method, which should return a URL to the page that our "entity" will be redirected to after processing a beacon. For compatibility with other django applications, webbugger checks if get_absolute_url is defined as an attribute on our target model when get_beacon_url does not exist. If neither of these methods exist, an HTTP 404 is shown because we have nowhere to direct traffic to after creating the tracking beacon.
 
