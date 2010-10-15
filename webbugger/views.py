@@ -89,7 +89,7 @@ def trigger(request, target_type, target_id, source_type=None, source_id=None,
                 if resolve_match:
                     return resolve_match.func(request, *match.args, **match.kwargs)
 
-            return HttpResponseRedirect(beacon.get_absolute_url())
+            return HttpResponseRedirect(beacon_final_url)
     except:
         try:
             # Attempt to redirect to the target if the beacon had issues
