@@ -2,6 +2,8 @@ from models import Beacon
 from django.contrib.contenttypes.models import ContentType
 from django.shortcuts import get_object_or_404
 from django.http import Http404, HttpResponse, HttpResponseRedirect
+from django.core.urlresolvers import resolve
+from django.conf import settings
 import base64
 
 # This is the string that gets returned as a transparent gif.
@@ -76,8 +78,18 @@ def trigger(request, target_type, target_id, source_type=None, source_id=None,
     try:
         if pixel:
             return HttpResponse(base64.decodestring(transparent_gif_contents), mimetype='image/gif')
+        else:
+            beacon_final_url = beacon.get_absolute_url()
 
-        return HttpResponseRedirect(beacon.get_absolute_url())
+            # This will attempt to detect whether or not this URL is part of the current system.
+            # If it is part of the current system, we don't need to redirect at all :)
+            if getattr(settings, 'IGNORE_LOCAL_REDIRECTS', True):
+                resolve_match = resolve(beacon_final_url)
+
+                if resolve_match:
+                    return resolve_match.func(request, *match.args, **match.kwargs)
+
+            return HttpResponseRedirect(beacon.get_absolute_url())
     except:
         try:
             # Attempt to redirect to the target if the beacon had issues
