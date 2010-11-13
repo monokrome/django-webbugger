@@ -15,7 +15,7 @@ from models import IPEntity
 # an entity - however this isn't completely "enforced" by the library.
 ####
 
-urlpatterns = patterns('django_webbugger.views',
+urlpatterns = patterns('webbugger.views',
     # Receives a target ID
     url(r'^(?P<target_id>\d+)/$', 'trigger',
         {'target_type': YourTarget},
